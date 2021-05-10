@@ -2,7 +2,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import classes.*;
 
+/* Questao 2-a) O codigo original nao estava preparado para atender a solicitacao do cliente,
+pois a camada de servico estava amarrada a camada de persistencia. Como solucao, optei pela criacao de interfaces.
+Dessa forma, posso ter uma classe que implementa a interface para escrever e ler de arquivos ou para escrever e ler de
+bancos de dados. A escolha eh feita na hora de instanciar. Nessa nova versao do codigo, ha um esboco dessa implementacao.
+Caso quisessemos adicionar um banco de dados, seria so criar uma classe PersistenciaBancoDeDados, por exemplo, e implementar
+os metodos das interfaces definidas dentro da pasta repositorios.
+*/
 public class Menu { // classe para interação com o usuário
 
     private static void mostraMenu() {
@@ -317,7 +325,13 @@ public class Menu { // classe para interação com o usuário
         Scanner input = new Scanner(System.in);
 
         // le os dados dos arquivos
-        Livraria.inicializaPrograma();
+        try {
+            Livraria.inicializaPrograma();
+        } catch (Exception e){
+            System.out.println("Houve um problema na inicialização do programa.");
+            System.out.println(e.getMessage());
+        }
+
 
         int option = -1; // inicializa a variavel option, usada para o usuário manipular o sistema
         while(option != 0) {
@@ -370,7 +384,11 @@ public class Menu { // classe para interação com o usuário
             }
         }
 
-        Livraria.finalizaPrograma();
+        try{
+            Livraria.finalizaPrograma();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         input.close();
         // se a opção de encerrar o programa for escolhida, encerra
 
